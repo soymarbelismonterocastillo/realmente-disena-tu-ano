@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Postulación • Diseña tu Año | RealMente</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(145deg, #0d041a 0%, #1a0b2e 50%, #100522 100%);
+      --card-bg: rgba(28, 14, 51, 0.88);
+      --card-border: rgba(192, 132, 252, 0.28);
+      --text-main: #f5f3ff;
+      --text-muted: #c4b5fd;
+      --accent-turquoise: #00f2fe;
+      --accent-turquoise-hover: #38bdf8;
+      --accent-gold: #fbbf24;
+      --accent-lilac: #d8b4fe;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 16px;
+    }
+
+    .form-wrapper {
+      width: 100%;
+      max-width: 580px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 32px 24px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(16px);
+      position: relative;
+    }
+
+    /* Barra de progreso */
+    .progress-track {
+      width: 100%;
+      height: 4px;
+      background: rgba(192, 132, 252, 0.15);
+      border-radius: 999px;
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-turquoise), #a855f7);
+      transition: width 0.35s ease;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: rgba(0, 242, 254, 0.1);
+      border: 1px solid rgba(0, 242, 254, 0.25);
+      color: var(--accent-turquoise);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .question-title {
+      font-size: 17px;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 8px;
+      line-height: 1.45;
+    }
+
+    .question-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    /* Inputs */
+    .input-field {
+      width: 100%;
+      background: rgba(15, 6, 28, 0.75);
+      border: 1px solid rgba(192, 132, 252, 0.3);
+      border-radius: 12px;
+      padding: 14px 16px;
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 15px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .input-field:focus {
+      outline: none;
+      border-color: var(--accent-turquoise);
+      box-shadow: 0 0 0 3px rgba(0, 242, 254, 0.15);
+    }
+
+    textarea.input-field {
+      resize: vertical;
+      min-height: 110px;
+    }
+
+    /* Opciones */
+    .options-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .option-card {
+      background: rgba(38, 19, 70, 0.5);
+      border: 1px solid rgba(192, 132, 252, 0.22);
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 14.5px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .option-card:hover {
+      border-color: rgba(0, 242, 254, 0.6);
+      background: rgba(0, 242, 254, 0.06);
+    }
+
+    .option-card.selected {
+      border-color: var(--accent-turquoise);
+      background: rgba(0, 242, 254, 0.12);
+      box-shadow: 0 0 0 1px var(--accent-turquoise);
+    }
+
+    .option-radio {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid rgba(192, 132, 252, 0.4);
+      margin-top: 2px;
+      flex-shrink: 0;
+      transition: all 0.2s;
+    }
+
+    .option-card.selected .option-radio {
+      border-color: var(--accent-turquoise);
+      background: var(--accent-turquoise);
+    }
+
+    /* Botones */
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .btn-primary {
+      flex: 1;
+      background: linear-gradient(135deg, var(--accent-turquoise) 0%, #0284c7 100%);
+      color: #080212;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 20px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.2s;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 25px -5px rgba(0, 242, 254, 0.4);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid rgba(192, 132, 252, 0.3);
+      color: var(--text-muted);
+      border-radius: 12px;
+      padding: 14px 20px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(192, 132, 252, 0.1);
+      color: #ffffff;
+    }
+
+    .footer-note {
+      text-align: center;
+      font-size: 12px;
+      color: rgba(196, 181, 253, 0.6);
+      margin-top: 16px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .success-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(0, 242, 254, 0.15);
+      border: 1px solid var(--accent-turquoise);
+      color: var(--accent-turquoise);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      margin: 0 auto 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-wrapper">
+    <!-- Barra de progreso -->
+    <div class="progress-track">
+      <div id="progress" class="progress-fill" style="width: 15%;"></div>
+    </div>
+
+    <!-- PANTALLA 0: Bienvenida -->
+    <div id="step-0" class="step">
+      <span class="badge">Masterclass • RealMente</span>
+      <h1 class="question-title" style="font-size: 20px; font-family: 'Playfair Display', serif;">Postulación al proceso guiado «Diseña tu Año»</h1>
+      <p class="question-desc" style="font-size: 15px; line-height: 1.6; margin-top: 12px;">
+        Te tomará menos de 2 minutos completar estas breves preguntas. Este formulario me ayuda a conocer tu momento actual, entender cuál es tu prioridad y orientarte hacia el camino más adecuado para que este año logres sostener tus resultados en el tiempo.
+      </p>
+      <div style="background: rgba(0, 242, 254, 0.06); border-left: 3px solid var(--accent-turquoise); padding: 12px 16px; border-radius: 0 10px 10px 0; margin-bottom: 24px;">
+        <p style="font-size: 13.5px; color: var(--text-muted); margin: 0;">
+          ✨ Acompañamiento de 5 semanas con reprogramación mental, PNL e hipnosis clínica (Plazas limitadas).
+        </p>
+      </div>
+      <button onclick="goTo(1)" class="btn-primary" style="width: 100%;">
+        Comenzar postulación →
+      </button>
+    </div>
+
+    <!-- PASO 1: Nombre y WhatsApp -->
+    <div id="step-1" class="step hidden">
+      <span class="badge">Paso 1 de 5 • Contacto</span>
+      <h2 class="question-title">¿Cómo te llamas y cuál es tu número de WhatsApp?</h2>
+      <p class="question-desc">Por favor incluye el código de tu país para poder escribirte directamente.</p>
+      
+      <div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px;">
+        <div>
+          <label style="display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 6px;">Nombre y apellido completo:</label>
+          <input type="text" id="name" class="input-field" placeholder="Ej: Marcela Gómez" autocomplete="name">
+        </div>
+        <div>
+          <label style="display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 6px;">Número de WhatsApp con código de país:</label>
+          <input type="tel" id="phone" class="input-field" placeholder="Ej: +54 9 11 1234 5678" autocomplete="tel">
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button onclick="goTo(0)" class="btn-secondary">Atrás</button>
+        <button onclick="valStep1()" class="btn-primary">Siguiente →</button>
+      </div>
+    </div>
+
+    <!-- PASO 2: Meta Principal -->
+    <div id="step-2" class="step hidden">
+      <span class="badge">Paso 2 de 5 • Foco</span>
+      <h2 class="question-title">¿A qué te dedicas hoy y cuál es esa meta principal que este año sí o sí quieres hacer realidad?</h2>
+      <p class="question-desc">Cuéntame brevemente tu actividad actual y el resultado que buscas.</p>
+      
+      <div style="margin-bottom: 24px;">
+        <textarea id="goal" class="input-field" placeholder="Escribe aquí tu meta central..."></textarea>
+      </div>
+
+      <div class="btn-row">
+        <button onclick="goTo(1)" class="btn-secondary">Atrás</button>
+        <button onclick="valStep2()" class="btn-primary">Siguiente →</button>
+      </div>
+    </div>
+
+    <!-- PASO 3: Freno Real -->
+    <div id="step-3" class="step hidden">
+      <span class="badge">Paso 3 de 5 • El Freno</span>
+      <h2 class="question-title">¿Cuál es tu mayor freno o qué sientes que es lo más natural que te pasa cuando intentas avanzar?</h2>
+      <p class="question-desc">Selecciona la opción con la que más te identifiques en este momento:</p>
+      
+      <div class="options-group">
+        <div class="option-card" onclick="pick('freno', this, 'Empiezo con fuerza en enero, pero con las semanas se me apaga la motivación')">
+          <div class="option-radio"></div>
+          <div>Empiezo con mucha fuerza en enero, pero con el paso de las semanas se me va apagando la motivación.</div>
+        </div>
+        <div class="option-card" onclick="pick('freno', this, 'Me disperso con demasiadas ideas o tareas a la vez y me cuesta sostener el foco')">
+          <div class="option-radio"></div>
+          <div>Me disperso con demasiadas ideas o tareas a la vez y me cuesta sostener el foco en lo importante.</div>
+        </div>
+        <div class="option-card" onclick="pick('freno', this, 'Me exijo tanto que me da culpa descansar o me saboteo justo antes de llegar')">
+          <div class="option-radio"></div>
+          <div>Me exijo tanto que me da culpa descansar o me saboteo justo antes de alcanzar el resultado.</div>
+        </div>
+        <div class="option-card" onclick="pick('freno', this, 'Me cuesta la constancia y siento que termino agotada física y mentalmente')">
+          <div class="option-radio"></div>
+          <div>Me cuesta la constancia y siento que termino agotada física y mentalmente.</div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button onclick="goTo(2)" class="btn-secondary">Atrás</button>
+        <button onclick="valStep3()" class="btn-primary">Siguiente →</button>
+      </div>
+    </div>
+
+    <!-- PASO 4: Inversión Orientativa -->
+    <div id="step-4" class="step hidden">
+      <span class="badge">Paso 4 de 5 • Inversión</span>
+      <h2 class="question-title">¿Cuánto estás dispuesta o dispuesto a invertir hoy para transformar tus resultados y cambiar tu año?</h2>
+      <p class="question-desc">Esta pregunta nos ayuda a orientarte hacia la opción más viable y adecuada para ti:</p>
+      
+      <div class="options-group">
+        <div class="option-card" onclick="pick('inversion', this, '0-100')">
+          <div class="option-radio"></div>
+          <div><strong>De $0 a $100 USD</strong> — Busco una alternativa accesible de acompañamiento continuo paso a paso.</div>
+        </div>
+        <div class="option-card" onclick="pick('inversion', this, '250-500')">
+          <div class="option-radio"></div>
+          <div><strong>De $250 a $500 USD</strong> — Busco un programa guiado e inmersivo en grupo para diseñar mi año desde la raíz.</div>
+        </div>
+        <div class="option-card" onclick="pick('inversion', this, '500-1000')">
+          <div class="option-radio"></div>
+          <div><strong>De $500 a $1.000 USD (o más)</strong> — Busco acompañamiento exclusivo y personalizado 1 a 1 directo contigo.</div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button onclick="goTo(3)" class="btn-secondary">Atrás</button>
+        <button onclick="valStep4()" class="btn-primary">Siguiente →</button>
+      </div>
+    </div>
+
+    <!-- PASO 5: Compromiso -->
+    <div id="step-5" class="step hidden">
+      <span class="badge">Paso 5 de 5 • Decisión</span>
+      <h2 class="question-title">Si encontramos la alternativa adecuada para trabajar juntas, ¿qué tan lista te sientes para comenzar?</h2>
+      <p class="question-desc">Elige tu nivel de disposición actual:</p>
+      
+      <div class="options-group">
+        <div class="option-card" onclick="pick('compromiso', this, 'Estoy lista para empezar de inmediato')">
+          <div class="option-radio"></div>
+          <div>Estoy lista para empezar de inmediato y comprometerme con mi proceso.</div>
+        </div>
+        <div class="option-card" onclick="pick('compromiso', this, 'Quiero conocer en detalle las opciones antes de decidir')">
+          <div class="option-radio"></div>
+          <div>Quiero conocer en detalle las opciones disponibles antes de tomar la decisión.</div>
+        </div>
+        <div class="option-card" onclick="pick('compromiso', this, 'Por el momento solo estoy explorando')">
+          <div class="option-radio"></div>
+          <div>Por el momento solo estoy explorando información libre.</div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button onclick="goTo(4)" class="btn-secondary">Atrás</button>
+        <button onclick="finish()" class="btn-primary">Enviar postulación →</button>
+      </div>
+    </div>
+
+    <!-- PANTALLA FINAL: RUTA DISEÑA TU AÑO ($250 a $1000+) -->
+    <div id="step-final-inmersion" class="step hidden" style="text-align: center;">
+      <div class="success-icon">✓</div>
+      <h2 class="question-title" style="font-size: 21px; font-family: 'Playfair Display', serif;">¡Postulación recibida!</h2>
+      <p class="question-desc" style="font-size: 15px; margin-top: 8px;">
+        Tu perfil encaja con lo que buscamos para el grupo de <strong>Diseña tu Año</strong>. El siguiente paso es coordinar nuestra llamada corta de diagnóstico de 20 minutos por Zoom para evaluar tu lugar.
+      </p>
+      
+      <a id="btn-inmersion" href="#" class="btn-primary" style="display: block; margin: 24px 0 12px; padding: 16px;">
+        Coordinar sesión de 20 min por WhatsApp →
+      </a>
+      <p class="footer-note">Chat directo y privado con Marbelis Montero (+54 9 11 3403-5203)</p>
+    </div>
+
+    <!-- PANTALLA FINAL: RUTA CLUB REALMENTE ($0 a $100) -->
+    <div id="step-final-club" class="step hidden" style="text-align: center;">
+      <div class="success-icon">🌱</div>
+      <h2 class="question-title" style="font-size: 21px; font-family: 'Playfair Display', serif;">¡Tu espacio ideal es el Club RealMente!</h2>
+      <p class="question-desc" style="font-size: 15px; margin-top: 8px;">
+        Para avanzar paso a paso sin abrumarte y dentro de tu presupuesto mensual, el Club es nuestra membresía donde trabajamos juntas todas las semanas con clases en vivo los sábados y ejercicios prácticos de reprogramación mental.
+      </p>
+      
+      <a id="btn-club" href="#" class="btn-primary" style="display: block; margin: 24px 0 12px; padding: 16px;">
+        Conocer cómo sumarme al Club por WhatsApp →
+      </a>
+      <p class="footer-note">Chat directo y privado con Marbelis Montero (+54 9 11 3403-5203)</p>
+    </div>
+
+  </div>
+
+  <script>
+    const state = {
+      name: '',
+      phone: '',
+      goal: '',
+      freno: '',
+      inversion: '',
+      compromiso: ''
+    };
+
+    function goTo(n) {
+      document.querySelectorAll('.step').forEach(s => s.classList.add('hidden'));
+      const el = document.getElementById('step-' + n);
+      if (el) el.classList.remove('hidden');
+      
+      const pct = n === 0 ? 15 : (n / 5) * 100;
+      document.getElementById('progress').style.width = pct + '%';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function pick(field, el, val) {
+      el.parentElement.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+      state[field] = val;
+    }
+
+    function valStep1() {
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      if (!name || !phone) {
+        alert('Por favor completa tu nombre y número de WhatsApp con código de país.');
+        return;
+      }
+      state.name = name;
+      state.phone = phone;
+      goTo(2);
+    }
+
+    function valStep2() {
+      const goal = document.getElementById('goal').value.trim();
+      if (!goal) {
+        alert('Por favor cuéntame brevemente tu meta central.');
+        return;
+      }
+      state.goal = goal;
+      goTo(3);
+    }
+
+    function valStep3() {
+      if (!state.freno) {
+        alert('Por favor selecciona la opción que mejor describa tu freno.');
+        return;
+      }
+      goTo(4);
+    }
+
+    function valStep4() {
+      if (!state.inversion) {
+        alert('Por favor selecciona un rango orientativo de inversión.');
+        return;
+      }
+      goTo(5);
+    }
+
+    function finish() {
+      if (!state.compromiso) {
+        alert('Por favor selecciona tu nivel de disposición.');
+        return;
+      }
+
+      document.querySelectorAll('.step').forEach(s => s.classList.add('hidden'));
+      document.getElementById('progress').style.width = '100%';
+
+      const phone = '5491134035203';
+
+      if (state.inversion === '0-100') {
+        const msgClub = `Hola Marbelis! Completé la postulación en la web y me interesa sumarme al Club RealMente.\n\n• Nombre: ${state.name}\n• Meta: ${state.goal}\n\n¿Me cuentas cómo ingresar?`;
+        document.getElementById('btn-club').href = `https://wa.me/${phone}?text=${encodeURIComponent(msgClub)}`;
+        document.getElementById('step-final-club').classList.remove('hidden');
+      } else {
+        const rango = state.inversion === '500-1000' ? 'De $500 a $1.000 USD (VIP)' : 'De $250 a $500 USD (Inmersión)';
+        const msgInm = `Hola Marbelis! Completé mi postulación para Diseña tu Año y quiero coordinar mi sesión corta de diagnóstico de 20 minutos.\n\n• Nombre: ${state.name}\n• Meta: ${state.goal}\n• Freno: ${state.freno}\n• Inversión orientativa: ${rango}`;
+        document.getElementById('btn-inmersion').href = `https://wa.me/${phone}?text=${encodeURIComponent(msgInm)}`;
+        document.getElementById('step-final-inmersion').classList.remove('hidden');
+      }
+    }
+  </script>
+</body>
+</html>
